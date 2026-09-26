@@ -7,11 +7,17 @@ from docx import Document
 from google import genai
 import firebase_admin
 from firebase_admin import credentials, firestore
-if not firebase_admin._apps:
-    cred = credentials.Certificate("data/key.json")
-    firebase_admin.initialize_app(cred)
 
-db = firestore.client()
+@st.cache_resource
+def get_firestore_db():
+    if not firebase_admin._apps:
+        key_dict = dict(st.secrets["firebase"])
+        key_dict["private_key"] = key_dict["private_key"].replace("\\n", "\n")
+        cred = credentials.Certificate(key_dict)
+        firebase_admin.initialize_app(cred)
+    return firestore.client()
+
+db = get_firestore_db()
 API_KEYS = st.secrets.get("API_KEYS", [])
 
 def generate_ai_response(prompt_content):
@@ -40,7 +46,7 @@ st.set_page_config(
     layout="wide"
 )
 
-if "user" not in st.session_state:
+if "user" not in st.session_state or not st.session_state["user"]:
     st.warning("⚠️ Vui lòng đăng nhập từ trang chủ trước!")
     st.stop()
 
