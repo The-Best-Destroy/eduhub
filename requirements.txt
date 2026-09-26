@@ -1,0 +1,8 @@
+streamlit
+google-generativeai
+google-genai
+pandas
+pyrebase4
+firebase-admin
+python-dotenv
+python-docx
