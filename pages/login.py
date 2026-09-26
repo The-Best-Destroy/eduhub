@@ -1,7 +1,6 @@
 import streamlit as st
 from firebase_auth import auth
 
-# Ẩn hoàn toàn sidebar ở trang đăng nhập
 st.markdown("""
     <style>
         [data-testid="stSidebar"] { display: none !important; }
@@ -15,7 +14,7 @@ if "success_msg" in st.session_state:
 
 col1, login, col3 = st.columns([1, 2, 1])
 with login:
-    st.title("🔐 Đăng nhập EduHub")
+    st.title("🔐 Đăng nhập")
     with st.form("login_form"):
         email = st.text_input("Email")
         password = st.text_input("Password", type="password")
@@ -36,7 +35,6 @@ with login:
 
     st.markdown("---")
     
-    # Hàng chứa nút Quên mật khẩu và Đăng ký
     col_forgot, col_reg = st.columns(2)
     
     with col_forgot:
